@@ -50,4 +50,4 @@ include_directories(src)
 add_compile_definitions(FONT_PATH="${FONT_PATH}" FONT_SIZE=${FONT_SIZE} YOLOV3_PARAM_FILE="${YOLOV3_PARAM_FILE}" YOLOV3_BIN_FILE="${YOLOV3_BIN_FILE}")
 add_executable(${PROJECT_NAME} src/main.cpp src/utils.cpp)
 
-target_link_libraries(${PROJECT_NAME} ${GST_LIBRARIES} ${FT_LIBRARIES} "${CMAKE_CURRENT_BINARY_DIR}/ncnn/src/libncnn.so")
+target_link_libraries(${PROJECT_NAME} ${GST_LIBRARIES} ${FT_LIBRARIES} ncnn)
