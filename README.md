@@ -24,7 +24,7 @@
 
 Требуется установить зависимости. Выполните следующие команды:
 
-> sudo apt install libgstreamer-1.0 libgstreamer-1.0-dev  
+> sudo apt install libgstreamer1.0-0 libgstreamer1.0-dev gstreamer1.0-libav gstreamer1.0-x  
 > sudo apt install libfreetype6 libfreetype6-dev
 
 ## Сборка
@@ -80,7 +80,7 @@ Also you may download [mp4-video](https://github.com/itsroar/yolo_and_gst/releas
 
 Dependencies need to be installed. Run the following commands:
 
-> sudo apt install libgstreamer-1.0 libgstreamer-1.0-dev  
+> sudo apt install libgstreamer-1.0 libgstreamer-1.0-dev gstreamer1.0-libav gstreamer1.0-x  
 > sudo apt install libfreetype6 libfreetype6-dev
 
 ## Building
