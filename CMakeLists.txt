@@ -7,7 +7,7 @@ set(YOLOV3_PARAM_FILE "${CMAKE_CURRENT_SOURCE_DIR}/res/mobilenetv2_yolov3.param"
 set(YOLOV3_BIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/res/mobilenetv2_yolov3.bin")
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-base-1.0 gstreamer-video-1.0)
+pkg_check_modules(GST REQUIRED gstreamer-1.0 gstreamer-base-1.0)
 pkg_check_modules(FT REQUIRED freetype2)
 
 message("GST_INCLUDE_DIRS ${GST_INCLUDE_DIRS}")
