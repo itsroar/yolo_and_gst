@@ -1,7 +1,6 @@
 #include "utils.h"
 
 #include <gst/gst.h>
-#include <gst/video/video-info.h>
 
 #include <iostream>
 
@@ -113,13 +112,15 @@ static GstPadProbeReturn on_pad_probe(GstPad *pad, GstPadProbeInfo *info, gpoint
     gst_buffer_map(buffer, &map_info, GST_MAP_READ);
 
     GstCaps *caps = gst_pad_get_current_caps(pad);
-    GstVideoInfo video_info;
-    gst_video_info_from_caps(&video_info, caps);
+    GstStructure *structure = gst_caps_get_structure(caps, 0);
+    int w, h;
+    gst_structure_get_int(structure, "width", &w);
+    gst_structure_get_int(structure, "height", &h);
     gst_caps_unref(caps);
 
     std::vector<ObjectDetection> objects;
-    detectYoloV3(map_info.data, video_info.width, video_info.height, objects);
-    drawObjectDetections(map_info.data, video_info.width, video_info.height, objects);
+    detectYoloV3(map_info.data, w, h, objects);
+    drawObjectDetections(map_info.data, w, h, objects);
 
     gst_buffer_unmap(buffer, &map_info);
 
@@ -152,6 +153,7 @@ int main(int argc, char **argv)
 
     GstElement *queue_video = gst_element_factory_make("queue", "queue_video");
     GstElement *decodebin_video = gst_element_factory_make("decodebin", "decodebin_video");
+    // link decodebin with other elements after some time, when decodebin read file metadata
     g_signal_connect(decodebin_video, "pad-added", G_CALLBACK(on_videodecoder_ready), pipeline);
 
     GstElement *videorate = gst_element_factory_make("videorate", "videorate");
@@ -162,8 +164,6 @@ int main(int argc, char **argv)
     GstPad *vc_output = gst_element_get_static_pad(videoconvert1, "src");
     gst_pad_add_probe(vc_output, GST_PAD_PROBE_TYPE_BUFFER, on_pad_probe, NULL, NULL);
     gst_object_unref(vc_output);
-
-    // link decodebin and videorate after some time, when decodebin read file metadata
 
     GstElement *capsfilter = gst_element_factory_make("capsfilter", "rgb_filter");
     GstCaps *caps = gst_caps_new_simple("video/x-raw", "format", G_TYPE_STRING, "RGB", NULL);
